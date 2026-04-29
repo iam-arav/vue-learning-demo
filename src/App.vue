@@ -1,7 +1,12 @@
 <script setup>
-import Home from './components/Home.vue'
+import Header from './components/Header.vue'
+
 </script>
 
 <template>
-  <Home />
+  <div class="m-0 p-0 bg-black text-white h-screen w-screen">
+  <Header/>
+  <router-view />
+  </div>
+
 </template>

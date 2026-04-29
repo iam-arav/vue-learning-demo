@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 const count = ref(0);
+
+const doubleCount = computed(() => count.value * 2);
 
 const incrementCount = () => {
     count.value += 1
@@ -23,9 +25,8 @@ const resetCounter = () => {
         <button @click="decrementCount" class="bg-blue-500 rounded-full text-2xl px-6 py-4 hover:bg-blue-500/50 active:scale-95 active:bg-blue-600 focus:ring-4 focus:ring-neutral-tertiary focus:outline-none transition transform duration-100"> - </button> 
         <button @click="resetCounter" class="bg-red-500 rounded-full text-2xl px-6 py-4 hover:bg-red-500/50 active:scale-95 active:bg-blue-600 focus:ring-4 focus:ring-neutral-tertiary focus:outline-none transition transform duration-100"> Reset </button> 
         <button @click="incrementCount" class="bg-blue-500 rounded-full text-2xl px-6 py-4 hover:bg-blue-500/50 active:scale-95 active:bg-blue-600 focus:ring-4 focus:ring-neutral-tertiary focus:outline-none transition transform duration-100">  + </button> 
-        
-
     </div>
+    <div class="mt-8 opacity-25">computed double count : {{doubleCount}}</div>
 
 </div>
   
