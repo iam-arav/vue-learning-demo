@@ -1,43 +1,18 @@
 <script setup>
-import { ref, computed } from 'vue';
-const todos = ref([]);
-const numberOfTodos = computed(() => todos.value.length);
+import { useTodoStore } from '../stores/todo';
 
-const newInputTodo = ref('')
-
-const onAddTodo = (todo) => {
-    if(todo.trim() === '')  return;
-    newInputTodo.value = '';
-    const newTodo = { id: numberOfTodos.value + 1, todo, completed: false, isEditing:false };
-    todos.value.push(newTodo);
-}
-
-const deleteTodo = (id) => {
-    todos.value = todos.value.filter((item) => item.id !== id)
-}
-
-const toggleComplete = (todo) => {
-   todo.completed = !todo.completed
-}
-const editTodo = (todo) => {
-  todo.isEditing = true;
-};
-
-const saveTodo = (todo) => {
-    todo.isEditing = false
-}
-
+const store = useTodoStore();
 
 </script>
 
 <template>
 <div class="flex flex-col items-center justify-center h-screen w-screen">
     <section key="Todo Addition">
-    <input class="bg-white w-md h-12 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" v-model="newInputTodo"/>
-    <button class="bg-green-300/75 hover:bg-green-300/50 ml-4 py-3.25 px-12 rounded-md" @click="onAddTodo(newInputTodo)">Add</button>
+    <input class="bg-white w-md h-12 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" v-model="store.newInputTodo"/>
+    <button class="bg-green-300/75 hover:bg-green-300/50 ml-4 py-3.25 px-12 rounded-md" @click="store.onAddTodo(store.newInputTodo)">Add</button>
     </section>
     <section class="mt-8 w-xl" key="Todo List">
-        <table v-if="numberOfTodos" class="w-full max-w-2xl border border-gray-700">
+        <table v-if="store.numberOfTodos" class="w-full max-w-2xl border border-gray-700">
       <thead class="bg-gray-900">
         <tr>
           <th class="p-3 border border-gray-700">Done</th>
@@ -47,7 +22,7 @@ const saveTodo = (todo) => {
       </thead>
 
       <tbody>
-        <tr v-for="item in todos" :key="item.id" class="text-center">
+        <tr v-for="item in store.todos" :key="item.id" class="text-center">
           
             
           <td class="border border-gray-700">
@@ -74,7 +49,7 @@ const saveTodo = (todo) => {
             
             <button
               v-if="!item.isEditing"
-              @click="editTodo(item)"
+              @click="store.editTodo(item)"
               class="bg-blue-500 px-3 py-1 rounded hover:bg-blue-600"
             >
               Edit
@@ -82,14 +57,14 @@ const saveTodo = (todo) => {
 
             <button
               v-if="item.isEditing"
-              @click="saveTodo(item)"
+              @click="store.saveTodo(item)"
               class="bg-green-500 px-3 py-1 rounded hover:bg-green-600"
             >
               Save
             </button>
 
             <button
-              @click="deleteTodo(item.id)"
+              @click="store.deleteTodo(item.id)"
               class="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
             >
               Delete
